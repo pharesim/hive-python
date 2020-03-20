@@ -15,7 +15,7 @@ class Dex(object):
         accessing a RPC
 
     """
-    assets = ["HIVE", "HBD"]
+    assets = ["HIVE", "HBD", "STEEM", "SBD"]
 
     def __init__(self, hived_instance=None):
         self.hived = hived_instance or shared_hived_instance()
@@ -28,10 +28,10 @@ class Dex(object):
             VESTS)
 
         """
-        if symbol == "HIVE":
-            return {"symbol": "HIVE", "precision": 3}
-        elif symbol == "HBD":
-            return {"symbol": "HBD", "precision": 3}
+        if symbol == "HIVE" or symbol == "STEEM":
+            return {"symbol": "STEEM", "precision": 3}
+        elif symbol == "HBD" or symbol == "SBD":
+            return {"symbol": "SBD", "precision": 3}
         elif symbol == "VESTS":
             return {"symbol": "VESTS", "precision": 6}
         else:
