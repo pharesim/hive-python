@@ -1,4 +1,4 @@
-# Official Python Hive Library
+# A Python Hive Library
 
 `hive-python` is a Hive library for Python. It comes with a
 BIP38 encrypted wallet and a practical CLI utility called `hivepy`.
