@@ -14,7 +14,7 @@ To install the library, simply run:
 
 ::
 
-   pip install -U hive
+   pip install -U hivepy
 
 
 Getting Started

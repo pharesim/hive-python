@@ -10,7 +10,7 @@ This library currently works on Python 2.7, 3.5 and 3.6. Python 3.3 and 3.4 supp
 With pip:
 
 ```
-pip3 install hive      # pip install hive for 2.7
+pip3 install hivepy      # pip install hivepy for 2.7
 ```
 
 From Source:

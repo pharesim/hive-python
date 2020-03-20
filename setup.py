@@ -13,7 +13,7 @@ from setuptools import find_packages, setup, Command
 from setuptools.command.test import test as TestCommand
 
 # Package meta-data.
-NAME = 'hive'
+NAME = 'hivepy'
 VERSION = '0.9'
 DESCRIPTION = 'A python hive library.'
 URL = 'https://github.com/pharesim/hive-python'
