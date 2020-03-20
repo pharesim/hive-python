@@ -256,6 +256,7 @@ class SignedTransaction(GrapheneObject):
         """
         if not chain:
             raise ValueError("Chain needs to be provided!")
+
         self.deriveDigest(chain)
 
         # Get Unique private keys

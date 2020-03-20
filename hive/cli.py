@@ -798,7 +798,7 @@ def legacyentry():
             info = blockchain.info()
             median_price = hive.get_current_median_history_price()
             hive_per_mvest = (
-                    Amount(info["total_vesting_fund_hive"]).amount /
+                    Amount(info["total_vesting_fund_steem"]).amount /
                     (Amount(info["total_vesting_shares"]).amount / 1e6))
             price = (Amount(median_price["base"]).amount / Amount(
                 median_price["quote"]).amount)

@@ -30,7 +30,8 @@ class Converter(object):
         """ Obtain HIVE/MVESTS ratio
         """
         info = self.hived.get_dynamic_global_properties()
-        return (Amount(info["total_vesting_fund_hive"]).amount /
+
+        return (Amount(info["total_vesting_fund_steem"]).amount /
                 (Amount(info["total_vesting_shares"]).amount / 1e6))
 
     def vests_to_hp(self, vests):
