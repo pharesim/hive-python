@@ -642,7 +642,11 @@ class Commit(object):
         if not account:
             raise ValueError("You need to provide an account")
 
-        assert asset in ['HIVE', 'HBD']
+        assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
+        if asset == 'HIVE':
+            asset = 'STEEM'
+        if asset == 'HBD':
+            asset = 'SBD'
 
         if memo and memo[0] == "#":
             from hivebase import memo as Memo
@@ -778,7 +782,11 @@ class Commit(object):
             :param str account: (optional) the source account for the transfer
             if not ``default_account``
         """
-        assert asset in ['HIVE', 'HBD']
+        assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
+        if asset == 'HIVE':
+            asset = 'STEEM'
+        if asset == 'HBD':
+            asset = 'SBD'
 
         if not account:
             account = configStorage.get("default_account")
@@ -821,7 +829,11 @@ class Commit(object):
             :param str account: (optional) the source account for the transfer
             if not ``default_account``
         """
-        assert asset in ['HIVE', 'HBD']
+        assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
+        if asset == 'HIVE':
+            asset = 'STEEM'
+        if asset == 'HBD':
+            asset = 'SBD'
 
         if not account:
             account = configStorage.get("default_account")

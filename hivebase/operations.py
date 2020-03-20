@@ -15,9 +15,11 @@ from .types import (Int16, Uint16, Uint32, Uint64, String, HexString, Bytes,
 default_prefix = "STM"
 
 asset_precision = {
+    "STEEM": 3,
     "HIVE": 3,
     "VESTS": 6,
     "HBD": 3,
+    "SBD": 3
 }
 
 
