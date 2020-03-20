@@ -14,6 +14,7 @@ from setuptools.command.test import test as TestCommand
 
 # Package meta-data.
 NAME = 'hive'
+VERSION = '0.9'
 DESCRIPTION = 'A python hive library.'
 URL = 'https://github.com/pharesim/hive-python'
 EMAIL = 'pharesim@protonmail.com'
@@ -131,7 +132,7 @@ class UploadCommand(Command):
 # Where the magic happens:
 setup(
     name=NAME,
-    version='1.0.2',
+    version=VERSION,
     description=DESCRIPTION,
     keywords=['hive', 'cryptocurrency', 'blockchain'],
     # long_description=long_description,
