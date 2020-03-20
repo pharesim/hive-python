@@ -79,18 +79,18 @@ class Account(dict):
     def get_balances(self):
         available = {
             'HIVE': Amount(self['balance']).amount,
-            'HBD': Amount(self['hbd_balance']).amount,
+            'HBD': Amount(self['sbd_balance']).amount,
             'VESTS': Amount(self['vesting_shares']).amount,
         }
 
         savings = {
             'HIVE': Amount(self['savings_balance']).amount,
-            'HBD': Amount(self['savings_hbd_balance']).amount,
+            'HBD': Amount(self['savings_sbd_balance']).amount,
         }
 
         rewards = {
-            'HIVE': Amount(self['reward_hive_balance']).amount,
-            'HBD': Amount(self['reward_hbd_balance']).amount,
+            'HIVE': Amount(self['reward_steem_balance']).amount,
+            'HBD': Amount(self['reward_sbd_balance']).amount,
             'VESTS': Amount(self['reward_vesting_balance']).amount,
         }
 
