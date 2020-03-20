@@ -732,7 +732,7 @@ class Commit(object):
                     to,
                 "amount":
                     '{:.{prec}f} {asset}'.format(
-                        float(amount), prec=3, asset='HIVE')
+                        float(amount), prec=3, asset='STEEM')
             })
 
         return self.finalizeOp(op, account, "active")
