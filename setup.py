@@ -14,7 +14,7 @@ from setuptools.command.test import test as TestCommand
 
 # Package meta-data.
 NAME = 'hivepy'
-VERSION = '0.9'
+VERSION = '0.9.11'
 DESCRIPTION = 'A python hive library.'
 URL = 'https://github.com/pharesim/hive-python'
 EMAIL = 'pharesim@protonmail.com'
