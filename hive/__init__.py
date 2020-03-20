@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+from .hive import Hive
+
+__version__ = '1.0.2'
