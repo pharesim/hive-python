@@ -272,7 +272,11 @@ class HttpClient(object):
                         else:
                             error = 'unspecified error'
                     else:
-                        error = result['error']['data']['name']
+                        from pprint import pprint
+                        if isinstance(result['error']['data'],list):
+                            error = result['error']['data']['name']
+                        else:
+                            error = result['error']['data']
 
                     if legacy:
                         detail = ":".join(detail.split("\n")[0:2])

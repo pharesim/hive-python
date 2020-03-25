@@ -916,11 +916,16 @@ class Commit(object):
             reward_hbd = a['reward_sbd_balance']
             reward_vests = a['reward_vesting_balance']
 
+        if reward_hive[-4:] == 'HIVE':
+            reward_hive = reward_hive[:-4]+'STEEM'
+        if reward_hbd[-3:] == 'HBD':
+            reward_hbd = reward_hbd[:-3]+'SBD'
+
         op = operations.ClaimRewardBalance(
             **{
                 "account": account,
-                "reward_hive": reward_hive,
-                "reward_hbd": reward_hbd,
+                "reward_steem": reward_hive,
+                "reward_sbd": reward_hbd,
                 "reward_vests": reward_vests,
             })
         return self.finalizeOp(op, account, "posting")

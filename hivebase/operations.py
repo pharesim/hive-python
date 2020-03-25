@@ -565,8 +565,8 @@ class ClaimRewardBalance(GrapheneObject):
             super(ClaimRewardBalance, self).__init__(
                 OrderedDict([
                     ('account', String(kwargs["account"])),
-                    ('reward_hive', Amount(kwargs["reward_hive"])),
-                    ('reward_hbd', Amount(kwargs["reward_hbd"])),
+                    ('reward_steem', Amount(kwargs["reward_steem"])),
+                    ('reward_sbd', Amount(kwargs["reward_sbd"])),
                     ('reward_vests', Amount(kwargs["reward_vests"])),
                 ]))
 
