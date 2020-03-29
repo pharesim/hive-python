@@ -75,7 +75,7 @@ def legacyentry():
         '--version',
         action='version',
         version='%(prog)s {version}'.format(
-            version=pkg_resources.require("hive")[0].version))
+            version=pkg_resources.require("steem")[0].version))
 
     subparsers = parser.add_subparsers(help='sub-command help')
     """
