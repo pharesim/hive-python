@@ -194,7 +194,11 @@ class HttpClient(object):
         assert not (kwargs and args), 'fail - passed array AND object args'
         params = kwargs if kwargs else args
 
-        if api:
+        if api and name == 'get_version':
+            api = 'database_api'
+            name = api+'.'+name
+            params = {}
+        if api and name != api+'.get_version':
             body = {'jsonrpc': '2.0',
                     'id': _id,
                     'method': 'call',
@@ -244,10 +248,8 @@ class HttpClient(object):
                 body_kwargs = kwargs.copy()
                 if not self._curr_node_downgraded():
                     body_kwargs['api'] = 'condenser_api'
-
                 body = HttpClient.json_rpc_body(name, *args, **body_kwargs)
                 response = self.request(body=body)
-
                 success_codes = tuple(list(response.REDIRECT_STATUSES) + [200])
                 if response.status not in success_codes:
                     raise RPCErrorRecoverable("non-200 response: %s from %s"

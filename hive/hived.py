@@ -68,17 +68,11 @@ class Hived(HttpClient):
         assert chain in known_chains, "The chain you are connecting " + \
                                       "to is not supported"
         #return known_chains.get(chain)
-        # temporarily get version and switch chain id after HF24
+        # temporarily use chain_id from get_version until after HF24
         chain = known_chains.get(chain)
         version = self.get_version()
         if version['blockchain_version'] != '0.23.0':
-          i = 0
-          zeros = ''
-          while i < 56:
-            zeros = zeros+'0'
-            i = i+1
-          chain['chain_id'] = 'beeab0de'+zeros
-
+          chain['chain_id'] = version['chain_id']
         return chain
 
     def get_replies(self, author, skip_own=True):
@@ -904,7 +898,7 @@ class Hived(HttpClient):
 
     def get_version(self):
         """ Get hived version of the node currently connected to. """
-        return self.call('get_version', api='login_api')
+        return self.call('get_version', api='database_api')
 
     def get_followers(self, account, start_follower,
                       follow_type, limit):
