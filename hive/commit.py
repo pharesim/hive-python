@@ -1056,11 +1056,9 @@ class Commit(object):
             })
         tb = TransactionBuilder(None,hived_instance=self.hived,wallet_instance=self.wallet,no_broadcast=self.no_broadcast,expiration=self.expiration)
         tb.appendOps([op])
-        tb.addSigningInformation(account, "active")
         tb.appendWif(signing_key)
         tb.sign()
         return tb.broadcast()
-        #return self.finalizeOp(op, account, "active")
 
     def decode_memo(self, enc_memo):
         """ Try to decode an encrypted memo
