@@ -1041,18 +1041,26 @@ class Commit(object):
         if not account:
             raise ValueError("You need to provide an account")
 
-        try:
-            PublicKey(signing_key)
-        except Exception as e:
-            raise e
+        props_list = [["key", repr(PrivateKey(signing_key, prefix=self.hived.chain_params["prefix"]).pubkey)]]
+        for k in props:
+          if k == 'account_creation_fee':
+            if props[k][-4:] == 'HIVE':
+                props[k] = props[k][:-4]+'STEEM'
+          props_list.append([k, props[k]])
 
         op = operations.WitnessSetProperties(
             **{
                 "owner": account,
-                "props": props,
+                "props": props_list,
                 "extensions": []
             })
-        return self.finalizeOp(op, account, "active")
+        tb = TransactionBuilder(None,hived_instance=self.hived,wallet_instance=self.wallet,no_broadcast=self.no_broadcast,expiration=self.expiration)
+        tb.appendOps([op])
+        tb.addSigningInformation(account, "active")
+        tb.appendWif(signing_key)
+        tb.sign()
+        return tb.broadcast()
+        #return self.finalizeOp(op, account, "active")
 
     def decode_memo(self, enc_memo):
         """ Try to decode an encrypted memo
