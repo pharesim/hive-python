@@ -1032,7 +1032,7 @@ class Commit(object):
                 [
                     ["account_creation_fee": x]
                     ["maximum_block_size": x]
-                    ["hbd_interest_rate": x]
+                    ["sbd_interest_rate": x]
                 ]
 
         """
