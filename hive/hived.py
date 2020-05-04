@@ -71,7 +71,8 @@ class Hived(HttpClient):
         # temporarily use chain_id from get_version until after HF24
         chain = known_chains.get(chain)
         version = self.get_version()
-        if version['blockchain_version'] != '0.23.0':
+        if version['chain_id'] != '0000000000000000000000000000000000000000000000000000000000000000':
+          print('Switching to chain_id '+version['chain_id'])
           chain['chain_id'] = version['chain_id']
         return chain
 
