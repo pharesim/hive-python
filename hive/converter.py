@@ -31,7 +31,11 @@ class Converter(object):
         """
         info = self.hived.get_dynamic_global_properties()
 
-        return (Amount(info["total_vesting_fund_steem"]).amount /
+        # temporarily allow both steem and hive symbols until after HF24
+        if 'total_vesting_fund_steem' in info:
+            info['total_vesting_fund_hive'] = info['total_vesting_fund_steem']
+
+        return (Amount(info["total_vesting_fund_hive"]).amount /
                 (Amount(info["total_vesting_shares"]).amount / 1e6))
 
     def vests_to_hp(self, vests):

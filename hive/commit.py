@@ -642,11 +642,17 @@ class Commit(object):
         if not account:
             raise ValueError("You need to provide an account")
 
-        assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
-        if asset == 'HIVE':
-            asset = 'STEEM'
-        if asset == 'HBD':
-            asset = 'SBD'
+        # temporarily allow both steem and hive symbols until after HF24
+        legacy_symbols = 0
+        a = Account(account)
+        if 'reward_steem_balance' in a:
+            legacy_symbols = 1
+        if legacy_symbols == 1:
+            assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
+            if asset == 'HIVE':
+                asset = 'STEEM'
+            if asset == 'HBD':
+                asset = 'SBD'
 
         if memo and memo[0] == "#":
             from hivebase import memo as Memo
@@ -724,6 +730,12 @@ class Commit(object):
         if not to:
             to = account  # powerup on the same account
 
+        # temporarily allow both steem and hive symbols until after HF24
+        asset_symbol = 'HIVE'
+        a = Account(account)
+        if 'reward_steem_balance' in a:
+            asset_symbol = 'STEEM'
+
         op = operations.TransferToVesting(
             **{
                 "from":
@@ -732,7 +744,7 @@ class Commit(object):
                     to,
                 "amount":
                     '{:.{prec}f} {asset}'.format(
-                        float(amount), prec=3, asset='STEEM')
+                        float(amount), prec=3, asset=asset_symbol)
             })
 
         return self.finalizeOp(op, account, "active")
@@ -782,11 +794,18 @@ class Commit(object):
             :param str account: (optional) the source account for the transfer
             if not ``default_account``
         """
-        assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
-        if asset == 'HIVE':
-            asset = 'STEEM'
-        if asset == 'HBD':
-            asset = 'SBD'
+
+        # temporarily allow both steem and hive symbols until after HF24
+        legacy_symbols = 0
+        a = Account(account)
+        if 'reward_steem_balance' in a:
+            legacy_symbols = 1
+        if legacy_symbols == 1:
+            assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
+            if asset == 'HIVE':
+                asset = 'STEEM'
+            if asset == 'HBD':
+                asset = 'SBD'
 
         if not account:
             account = configStorage.get("default_account")
@@ -829,11 +848,18 @@ class Commit(object):
             :param str account: (optional) the source account for the transfer
             if not ``default_account``
         """
-        assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
-        if asset == 'HIVE':
-            asset = 'STEEM'
-        if asset == 'HBD':
-            asset = 'SBD'
+
+        # temporarily allow both steem and hive symbols until after HF24
+        legacy_symbols = 0
+        a = Account(account)
+        if 'reward_steem_balance' in a:
+            legacy_symbols = 1
+        if legacy_symbols == 1:
+            assert asset in ['HIVE', 'HBD', 'STEEM', 'SBD']
+            if asset == 'HIVE':
+                asset = 'STEEM'
+            if asset == 'HBD':
+                asset = 'SBD'
 
         if not account:
             account = configStorage.get("default_account")
@@ -906,28 +932,48 @@ class Commit(object):
         if not account:
             raise ValueError("You need to provide an account")
 
+
+
         # if no values were set by user, claim all outstanding balances on
         # account
         if none(
                 float(first(x.split(' ')))
                 for x in [reward_hbd, reward_hive, reward_vests]):
             a = Account(account)
-            reward_hive = a['reward_steem_balance']
-            reward_hbd = a['reward_sbd_balance']
+            # temporarily allow both steem and hive symbols until after HF24
+            if 'sbd_balance' in a:
+                a['hbd_balance'] = a['sbd_balance']
+                a['savings_hbd_balance'] = a['savings_sbd_balance']
+                a['reward_hive_balance'] = a['reward_steem_balance']
+                a['reward_hbd_balance'] = a['reward_sbd_balance']
+
+            reward_hive = a['reward_hive_balance']
+            reward_hbd = a['reward_hbd_balance']
             reward_vests = a['reward_vesting_balance']
 
-        if reward_hive[-4:] == 'HIVE':
-            reward_hive = reward_hive[:-4]+'STEEM'
-        if reward_hbd[-3:] == 'HBD':
-            reward_hbd = reward_hbd[:-3]+'SBD'
+        # temporarily allow both steem and hive symbols until after HF24
+        a = Account(account)
+        if 'sbd_balance' in a:
+            if reward_hive[-4:] == 'HIVE':
+                reward_hive = reward_hive[:-4]+'STEEM'
+            if reward_hbd[-3:] == 'HBD':
+                reward_hbd = reward_hbd[:-3]+'SBD'
 
-        op = operations.ClaimRewardBalance(
-            **{
-                "account": account,
-                "reward_steem": reward_hive,
-                "reward_sbd": reward_hbd,
-                "reward_vests": reward_vests,
-            })
+            op = operations.ClaimRewardBalance(
+                **{
+                    "account": account,
+                    "reward_steem": reward_hive,
+                    "reward_sbd": reward_hbd,
+                    "reward_vests": reward_vests,
+                })
+        else:
+            op = operations.ClaimRewardBalance(
+                **{
+                    "account": account,
+                    "reward_hive": reward_hive,
+                    "reward_hbd": reward_hbd,
+                    "reward_vests": reward_vests,
+                })
         return self.finalizeOp(op, account, "posting")
 
     def delegate_vesting_shares(self, to_account, vesting_shares,
@@ -1041,10 +1087,17 @@ class Commit(object):
         if not account:
             raise ValueError("You need to provide an account")
 
+        # temporarily allow both steem and hive symbols until after HF24
+        legacy_symbols = 0
+        a = Account(account)
+        if 'reward_steem_balance' in a:
+            legacy_symbols = 1
+
         props_list = [["key", repr(PrivateKey(signing_key, prefix=self.hived.chain_params["prefix"]).pubkey)]]
         for k in props:
           if k == 'account_creation_fee':
-            if props[k][-4:] == 'HIVE':
+            # temporarily allow both steem and hive symbols until after HF24
+            if props[k][-4:] == 'HIVE' and legacy_symbols == 1:
                 props[k] = props[k][:-4]+'STEEM'
           props_list.append([k, props[k]])
 

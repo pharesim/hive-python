@@ -565,8 +565,8 @@ class ClaimRewardBalance(GrapheneObject):
             super(ClaimRewardBalance, self).__init__(
                 OrderedDict([
                     ('account', String(kwargs["account"])),
-                    ('reward_steem', Amount(kwargs["reward_steem"])),
-                    ('reward_sbd', Amount(kwargs["reward_sbd"])),
+                    ('reward_hive', Amount(kwargs["reward_hive"])),
+                    ('reward_hbd', Amount(kwargs["reward_hbd"])),
                     ('reward_vests', Amount(kwargs["reward_vests"])),
                 ]))
 
@@ -713,13 +713,13 @@ class WitnessSetProperties(GrapheneObject):
                     is_hex = re.match(r'^[0-9a-fA-F]+$', k[1] or '') is not None
                 else:
                     is_hex = False
-                if isinstance(k[1], int) and k[0] in ["account_subsidy_budget", "account_subsidy_decay", "maximum_block_size", "sbd_interest_rate"]:
+                if isinstance(k[1], int) and k[0] in ["account_subsidy_budget", "account_subsidy_decay", "maximum_block_size", "hbd_interest_rate"]:
                     props[k[0]] = (hexlify(Uint32(k[1]).__bytes__())).decode()
                 elif not isinstance(k[1], str) and k[0] in ["account_creation_fee"]:
                     props[k[0]] = (hexlify(Amount(k[1]).__bytes__())).decode()
                 elif not is_hex and isinstance(k[1], str) and k[0] in ["account_creation_fee"]:
                     props[k[0]] = (hexlify(Amount(k[1]).__bytes__())).decode()
-                elif not isinstance(k[1], str) and k[0] in ["sbd_exchange_rate"]:
+                elif not isinstance(k[1], str) and k[0] in ["hbd_exchange_rate"]:
                     props[k[0]] = (hexlify(ExchangeRate(k[1]).__bytes__())).decode()
                 elif not is_hex and k[0] in ["url"]:
                     props[k[0]] = (hexlify(String(k[1]).__bytes__())).decode()
