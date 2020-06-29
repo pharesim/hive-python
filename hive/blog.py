@@ -46,7 +46,7 @@ class Blog:
                  hived_instance=None):
         self.hive = hived_instance or shared_hived_instance()
         self.comments_only = comments_only
-        self.account = Account(account_name)
+        self.account = Account(account_name, hived_instance=self.hive)
         self.history = self.account.history_reverse(filter_by='comment')
         self.seen_items = set()
 

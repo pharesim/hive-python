@@ -2,7 +2,7 @@ default_prefix = "STM"
 
 known_chains = {
     "HIVE": {
-        "chain_id": "beeabode00000000000000000000000000000000000000000000000000000000",
+        "chain_id": "0" * int(256 / 4),
         "prefix": "STM",
         "hive_symbol": "HIVE",
         "hbd_symbol": "HBD",

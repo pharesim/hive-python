@@ -123,7 +123,6 @@ class Commit(object):
             no_broadcast=self.no_broadcast,
             expiration=self.expiration)
         tx.appendOps(ops)
-
         if self.unsigned:
             tx.addSigningInformation(account, permission)
             return tx
@@ -644,7 +643,7 @@ class Commit(object):
 
         # temporarily allow both steem and hive symbols until after HF24
         legacy_symbols = 0
-        a = Account(account)
+        a = Account(account,hived_instance=self.hived)
         if 'reward_steem_balance' in a:
             legacy_symbols = 1
         if legacy_symbols == 1:
@@ -682,6 +681,7 @@ class Commit(object):
                 "memo":
                     memo
             })
+        print(op)
         return self.finalizeOp(op, account, "active")
 
     def withdraw_vesting(self, amount, account=None):
@@ -732,7 +732,7 @@ class Commit(object):
 
         # temporarily allow both steem and hive symbols until after HF24
         asset_symbol = 'HIVE'
-        a = Account(account)
+        a = Account(account, hived_instance=self.hived)
         if 'reward_steem_balance' in a:
             asset_symbol = 'STEEM'
 
@@ -797,7 +797,7 @@ class Commit(object):
 
         # temporarily allow both steem and hive symbols until after HF24
         legacy_symbols = 0
-        a = Account(account)
+        a = Account(account, hived_instance=self.hived)
         if 'reward_steem_balance' in a:
             legacy_symbols = 1
         if legacy_symbols == 1:
@@ -851,7 +851,7 @@ class Commit(object):
 
         # temporarily allow both steem and hive symbols until after HF24
         legacy_symbols = 0
-        a = Account(account)
+        a = Account(account, hived_instance=self.hived)
         if 'reward_steem_balance' in a:
             legacy_symbols = 1
         if legacy_symbols == 1:
@@ -939,7 +939,7 @@ class Commit(object):
         if none(
                 float(first(x.split(' ')))
                 for x in [reward_hbd, reward_hive, reward_vests]):
-            a = Account(account)
+            a = Account(account, hived_instance=self.hived)
             # temporarily allow both steem and hive symbols until after HF24
             if 'sbd_balance' in a:
                 a['hbd_balance'] = a['sbd_balance']
@@ -952,7 +952,7 @@ class Commit(object):
             reward_vests = a['reward_vesting_balance']
 
         # temporarily allow both steem and hive symbols until after HF24
-        a = Account(account)
+        a = Account(account, hived_instance=self.hived)
         if 'sbd_balance' in a:
             if reward_hive[-4:] == 'HIVE':
                 reward_hive = reward_hive[:-4]+'STEEM'
@@ -1089,7 +1089,7 @@ class Commit(object):
 
         # temporarily allow both steem and hive symbols until after HF24
         legacy_symbols = 0
-        a = Account(account)
+        a = Account(account, hived_instance=self.hived)
         if 'reward_steem_balance' in a:
             legacy_symbols = 1
 

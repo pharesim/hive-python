@@ -1015,7 +1015,7 @@ def legacyentry():
     elif args.command == "balance":
         if args.account and isinstance(args.account, list):
             for account in args.account:
-                a = Account(account)
+                a = Account(account, hived_instance = hive)
 
                 print("\n%s" % a.name)
                 t = PrettyTable(["Account", "HIVE", "HBD", "VESTS"])
