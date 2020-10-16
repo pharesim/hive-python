@@ -77,13 +77,6 @@ class Account(dict):
         return self.get_balances()
 
     def get_balances(self):
-        # temporarily allow both steem and hive symbols until after HF24
-        if 'sbd_balance' in self:
-            self['hbd_balance'] = self['sbd_balance']
-            self['savings_hbd_balance'] = self['savings_sbd_balance']
-            self['reward_hive_balance'] = self['reward_steem_balance']
-            self['reward_hbd_balance'] = self['reward_sbd_balance']
-
         available = {
             'HIVE': Amount(self['balance']).amount,
             'HBD': Amount(self['hbd_balance']).amount,

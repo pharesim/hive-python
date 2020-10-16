@@ -797,10 +797,6 @@ def legacyentry():
             blockchain = Blockchain(mode="head")
             info = blockchain.info()
 
-            # temporarily allow both steem and hive symbols until after HF24
-            if 'total_vesting_fund_steem' in info:
-                info['total_vesting_fund_hive'] = info['total_vesting_fund_steem']
-
             median_price = hive.get_current_median_history_price()
             hive_per_mvest = (
                     Amount(info["total_vesting_fund_hive"]).amount /

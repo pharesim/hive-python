@@ -28,19 +28,14 @@ class Dex(object):
             VESTS)
 
         """
-        # temporarily allow both steem and hive symbols until after HF24
-        precision = 3
-        if symbol == 'VESTS':
-            precision = 6
-        return {"symbol":symbol,"precision": precision}
-#        if symbol == "HIVE" or symbol == "STEEM":
-#            return {"symbol": "HIVE", "precision": 3}
-#        elif symbol == "HBD" or symbol == "SBD":
-#            return {"symbol": "HBD", "precision": 3}
-#        elif symbol == "VESTS":
-#            return {"symbol": "VESTS", "precision": 6}
-#        else:
-#            return None
+        if symbol == "HIVE" or symbol == "STEEM":
+            return {"symbol": "STEEM", "precision": 3}
+        elif symbol == "HBD" or symbol == "SBD":
+            return {"symbol": "SBD", "precision": 3}
+        elif symbol == "VESTS":
+            return {"symbol": "VESTS", "precision": 6}
+        else:
+            return None
 
     def _get_assets(self, quote):
         """ Given the `quote` asset, return base. If quote is HBD, then
