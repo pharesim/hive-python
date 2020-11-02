@@ -180,7 +180,7 @@ class Account(dict):
 
     def virtual_op_count(self):
         try:
-            last_item = self.hived.get_account_history(self.name, -1, 0)[0][0]
+            last_item = self.hived.get_account_history(self.name, -1, 1)[0][0]
         except IndexError:
             return 0
         else:
