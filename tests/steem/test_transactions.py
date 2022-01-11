@@ -1,5 +1,5 @@
 import unittest
-from binascii import hexlify
+from binascii import hexlify, unhexlify
 from pprint import pprint
 from hivebase.account import PrivateKey
 from hivebase.transactions import SignedTransaction
@@ -178,6 +178,11 @@ class Testcases(unittest.TestCase):
                    "b45486833443c128002bcafa57269cada3ad213ef88adb5831f63a"
                    "58d8b81bbdd92d494da01eeb13ee1786d02ce075228b25d7132f8f"
                    "3e")
+        live = self.hive.database_api.get_transaction_hex(tx.json())
+
+        self.assertEqual(live[:-130], compare[:-130])
+        self.assertEqual(unhexlify(live[:-130]), unhexlify(tx_wire[:-130]))
+        self.assertEqual(live[:-130], tx_wire[:-130])
         self.assertEqual(compare[:-130], tx_wire[:-130])
 
     def test_Transfer_to_vesting(self):

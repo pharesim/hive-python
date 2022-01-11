@@ -7,10 +7,8 @@ from collections import OrderedDict
 
 from Crypto.Cipher import AES
 
-from .operations import Memo
 from .base58 import base58encode, base58decode
-from .account import PrivateKey, PublicKey
-from hive.utils import compat_bytes
+from .utils import compat_bytes
 
 default_prefix = "STM"
 
@@ -82,7 +80,9 @@ def encode_memo(priv, pub, nonce, message, **kwargs):
         :rtype: hex
 
     """
+    from .account import PrivateKey, PublicKey
     from hivebase import transactions
+    from .operations import Memo
     shared_secret = get_shared_secret(priv, pub)
     aes, check = init_aes(shared_secret, nonce)
     raw = compat_bytes(message, 'utf8')
@@ -121,6 +121,7 @@ def decode_memo(priv, message):
 
     """
     " decode structure "
+    from .account import PrivateKey, PublicKey
     raw = base58decode(message[1:])
     from_key = PublicKey(raw[:66])
     raw = raw[66:]
@@ -157,6 +158,7 @@ def decode_memo(priv, message):
 
 def involved_keys(message):
     " decode structure "
+    from .account import PublicKey
     raw = base58decode(message[1:])
     from_key = PublicKey(raw[:66])
     raw = raw[66:]

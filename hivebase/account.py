@@ -1,12 +1,9 @@
-import hashlib
 import os
 import re
-from binascii import hexlify, unhexlify
-from hive.utils import compat_bytes, compat_chr
-
 import ecdsa
-
-from .base58 import ripemd160, Base58
+import hashlib
+from binascii import hexlify, unhexlify
+from .utils import compat_bytes, compat_chr
 from .dictionary import words as BrainKeyDictionary
 
 
@@ -138,6 +135,7 @@ class Address(object):
     """
 
     def __init__(self, address=None, pubkey=None, prefix="STM"):
+        from .base58 import Base58
         self.prefix = prefix
         if pubkey is not None:
             self._pubkey = Base58(pubkey, prefix=prefix)
@@ -151,12 +149,16 @@ class Address(object):
 
     def derivesha256address(self):
         """ Derive address using ``RIPEMD160(SHA256(x))`` """
+        from .base58 import Base58
+        from .base58 import ripemd160
         pkbin = unhexlify(repr(self._pubkey))
         addressbin = ripemd160(hexlify(hashlib.sha256(pkbin).digest()))
         return Base58(hexlify(addressbin).decode('ascii'))
 
     def derivesha512address(self):
         """ Derive address using ``RIPEMD160(SHA512(x))`` """
+        from .base58 import Base58
+        from .base58 import ripemd160
         pkbin = unhexlify(repr(self._pubkey))
         addressbin = ripemd160(hexlify(hashlib.sha512(pkbin).digest()))
         return Base58(hexlify(addressbin).decode('ascii'))
@@ -212,6 +214,7 @@ class PublicKey(object):
     """
 
     def __init__(self, pk, prefix="STM"):
+        from .base58 import Base58
         self.prefix = prefix
         self._pk = Base58(pk, prefix=prefix)
         self.address = Address(pubkey=pk, prefix=prefix)
@@ -303,6 +306,7 @@ class PrivateKey(object):
     """
 
     def __init__(self, wif=None, prefix="STM"):
+        from .base58 import Base58
         if wif is None:
             import os
             self._wif = Base58(hexlify(os.urandom(32)).decode('ascii'))

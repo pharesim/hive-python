@@ -403,7 +403,7 @@ def compat_json(data, ignore_dicts=False):
     if isinstance(data, dict) and not ignore_dicts:
         return {
             compat_json(key, ignore_dicts=True): compat_json(value, ignore_dicts=True)
-            for key, value in data.iteritems()
+            for key, value in data.items()
         }
     # if it's anything else, return it in its original form
     return data

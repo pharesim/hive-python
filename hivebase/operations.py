@@ -5,8 +5,7 @@ import re
 import struct
 from collections import OrderedDict
 
-from hive.utils import compat_bytes
-from .account import PublicKey
+from .utils import compat_bytes
 from .operationids import operations
 from .types import (Int16, Uint16, Uint32, Uint64, String, HexString, Bytes,
                     Array, PointInTime, Bool, Optional, Map, Id, JsonObj,
@@ -138,6 +137,7 @@ class GrapheneObject(object):
 
 class Permission(GrapheneObject):
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:
@@ -174,6 +174,7 @@ class Permission(GrapheneObject):
 
 class Memo(GrapheneObject):
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:
@@ -245,9 +246,19 @@ class Amount:
         else:
             raise Exception("Asset unknown")
 
+    def get_asset_symbol_binary(self):
+        if self.asset == "HIVE":
+            return "STEEM"
+        elif self.asset == "HBD":
+            return "SBD"
+        elif self.asset in ["STEEM", "SBD", "VESTS"]:
+            return self.asset
+        else:
+            raise ValueError(f"Invalid symbol: {self.asset}")
+
     def __bytes__(self):
         # padding
-        asset = self.asset + "\x00" * (7 - len(self.asset))
+        asset = self.get_asset_symbol_binary() + "\x00" * (7 - len(self.get_asset_symbol_binary()))
         amount = round(float(self.amount) * 10 ** self.precision)
         return (struct.pack("<q", amount) + struct.pack("<b", self.precision) +
                 compat_bytes(asset, "ascii"))
@@ -345,6 +356,7 @@ class CommentOptionExtensions(StaticVariant):
 
 class AccountCreate(GrapheneObject):
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:
@@ -376,6 +388,7 @@ class AccountCreate(GrapheneObject):
 
 class AccountCreateWithDelegation(GrapheneObject):
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:
@@ -409,6 +422,7 @@ class AccountCreateWithDelegation(GrapheneObject):
 
 class AccountUpdate(GrapheneObject):
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:
@@ -665,6 +679,7 @@ class FeedPublish(GrapheneObject):
 
 class WitnessUpdate(GrapheneObject):
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:
@@ -691,6 +706,7 @@ class WitnessSetProperties(GrapheneObject):
     Based on https://github.com/holgern/beem/blob/6cc303d1b0fdfb096da78d3ff331aaa79a18ad8f/beembase/operations.py#L278-L318
     """
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:

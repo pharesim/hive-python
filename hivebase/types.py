@@ -5,7 +5,7 @@ import time
 import array
 from binascii import hexlify, unhexlify
 from calendar import timegm
-from hive.utils import compat_bytes, compat_json
+from .utils import compat_bytes, compat_json
 
 object_type = {
     "dynamic_global_property": 0,
