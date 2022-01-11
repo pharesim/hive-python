@@ -346,6 +346,7 @@ class CommentOptionExtensions(StaticVariant):
 
 class AccountCreate(GrapheneObject):
     def __init__(self, *args, **kwargs):
+        from .account import PublicKey
         if isArgsThisClass(self, args):
             self.data = args[0].data
         else:
