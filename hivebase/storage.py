@@ -9,8 +9,8 @@ from datetime import datetime
 
 from appdirs import user_data_dir
 
-from hive.aes import AESCipher
-from hive.utils import compat_bytes
+from .aes import AESCipher
+from .utils import compat_bytes
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)

@@ -10,7 +10,7 @@ from datetime import datetime
 
 import ecdsa
 
-from hive.utils import compat_bytes, compat_chr
+from .utils import compat_bytes, compat_chr
 from .account import PrivateKey, PublicKey
 from .chains import known_chains
 from .operations import Operation, GrapheneObject, isArgsThisClass

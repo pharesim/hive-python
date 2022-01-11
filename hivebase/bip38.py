@@ -6,7 +6,7 @@ from binascii import hexlify, unhexlify
 
 from .account import PrivateKey
 from .base58 import Base58, base58decode
-from hive.utils import compat_bytes
+from .utils import compat_bytes
 
 log = logging.getLogger(__name__)
 

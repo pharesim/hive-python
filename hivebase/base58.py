@@ -3,7 +3,7 @@ import hashlib
 import sys
 import string
 import logging
-from hive.utils import compat_bytes
+from .utils import compat_bytes
 
 log = logging.getLogger(__name__)
 
