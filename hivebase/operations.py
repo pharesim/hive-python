@@ -246,9 +246,19 @@ class Amount:
         else:
             raise Exception("Asset unknown")
 
+    def get_asset_symbol_binary(self):
+        if self.asset == "HIVE":
+            return "STEEM"
+        elif self.asset == "HBD":
+            return "SBD"
+        elif self.asset in ["STEEM", "SBD", "VESTS"]:
+            return self.asset
+        else:
+            raise ValueError(f"Invalid symbol: {self.asset}")
+
     def __bytes__(self):
         # padding
-        asset = self.asset + "\x00" * (7 - len(self.asset))
+        asset = self.get_asset_symbol_binary() + "\x00" * (7 - len(self.get_asset_symbol_binary()))
         amount = round(float(self.amount) * 10 ** self.precision)
         return (struct.pack("<q", amount) + struct.pack("<b", self.precision) +
                 compat_bytes(asset, "ascii"))
